@@ -1,0 +1,25 @@
+name: Nginx Demo
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Build Docker Image
+        run: docker build -t my-nginx .
+
+      - name: Run Nginx Container
+        run: docker run -d -p 8080:80 my-nginx
+
+      - name: Test Nginx is Running
+        run: |
+          sleep 5
+          curl -I http://localhost:8080
+
